@@ -14,5 +14,8 @@
     "json"
   ],
   "author": "ttlong3103",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "jison": "^0.4.18"
+  }
 }
