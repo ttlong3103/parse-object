@@ -12,7 +12,7 @@ var grammar = {
       /** DOUBLE QUOTE STRING
        * Note: visual "\n" we see in console when call JSON.stringify("a\nb") actually is "a" + "\" + "n" + "b"
        */
-      ['"', 'this.begin("DOUBLE_QUOTE_STRING_START_CONDITION"); return "\\"";'],
+      [`"`, `this.begin("DOUBLE_QUOTE_STRING_START_CONDITION"); return '"';`],
       [
         ['DOUBLE_QUOTE_STRING_START_CONDITION'],
         '[^"\\r\\n]+',
@@ -20,12 +20,12 @@ var grammar = {
       ],
       [
         ['DOUBLE_QUOTE_STRING_START_CONDITION'],
-        '"',
-        'this.popState(); return "\\"";'
+        `"`,
+        `this.popState(); return '"';`
       ],
       /** SINGLE QUOTE STRING
        */
-      ['\'', 'this.begin("SINGLE_QUOTE_STRING_START_CONDITION"); return "\'";'],
+      [`'`, `this.begin("SINGLE_QUOTE_STRING_START_CONDITION"); return "'";`],
       [
         ['SINGLE_QUOTE_STRING_START_CONDITION'],
         '[^\'\\r\\n]+',
@@ -33,8 +33,8 @@ var grammar = {
       ],
       [
         ['SINGLE_QUOTE_STRING_START_CONDITION'],
-        '\'',
-        'this.popState(); return "\'";'
+        `'`,
+        `this.popState(); return "'";`
       ],
       /** NUMBER
        * Support "1" , "-1" , "1.0" , "-1.0" , "1." , ".1"
