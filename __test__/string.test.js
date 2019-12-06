@@ -20,6 +20,10 @@ test('Double quote string with visual \\n', () => {
   expect(parse(`"abc\\n123"`)).toBe('abc\\n123');
 });
 
+test('Double quote contains single quotes', () => {
+  expect(parse(`"'abc'"`)).toBe(`'abc'`);
+});
+
 test('Single quote string 1', () => {
   expect(parse(`'abc'`)).toBe('abc');
 });
@@ -40,3 +44,6 @@ test('Single quote string with visual \\n', () => {
   expect(parse(`'abc\\n123'`)).toBe('abc\\n123');
 });
 
+test('Single quote contains double quotes', () => {
+  expect(parse(`'"abc"'`)).toBe(`"abc"`);
+});
