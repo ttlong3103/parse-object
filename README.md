@@ -18,7 +18,7 @@ npm install --save parse-object
 ```javascript
 const parse = require('parse-object');
 
-const str = `"{ sort: { date: 'DES' } }"`;
+const str = "{ sort: { date: 'DES' } }";
 console.log(parse(str)); // { sort: { date: 'DES' } }
 console.log(JSON.parse(str)); // raise error
 ```

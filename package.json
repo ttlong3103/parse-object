@@ -1,6 +1,6 @@
 {
   "name": "parse-object",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Parse text to object",
   "main": "index.js",
   "scripts": {
