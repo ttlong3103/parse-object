@@ -57,3 +57,11 @@ test('Check ignore white spaces', () => {
     c: {}
   });
 });
+
+test('Check object with string value contains url', () => {
+  expect(parse(`{url: "https://github.com/ttlong3103/parse-object/"}`)).toEqual(
+    {
+      url: 'https://github.com/ttlong3103/parse-object/'
+    }
+  );
+});
