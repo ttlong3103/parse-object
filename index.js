@@ -40,6 +40,9 @@ var grammar = {
        * Support "1" , "-1" , "1.0" , "-1.0" , "1." , ".1"
        */
       ['[-]?((\\d+(\\.\\d*)?)|(\\d*\\.\\d+))', 'return "NUMBER";'],
+      [',', 'return ",";'],
+      ['\\[', 'return "[";'],
+      [']', 'return "]";'],
       ['$', 'return "EOF";']
     ]
   },
@@ -47,7 +50,8 @@ var grammar = {
     entry: [['expr EOF', 'return $1']],
     expr: [
       ['number', '$$ = $1'],
-      ['string', '$$ = $1']
+      ['string', '$$ = $1'],
+      ['array', '$$ = $1']
     ],
     number: [['NUMBER', '$$ = Number($1)']],
     string: [
@@ -62,6 +66,12 @@ var grammar = {
       [`' '`, '$$ = ""'],
       [`' SINGLE_QUOTE_STRING '`, '$$ = $2']
     ],
+    array: [['[ argList ]', '$$ = $2']],
+    argList: [
+      ['expr , argList', '$$ = [$1].concat($3)'],
+      ['expr', '$$ = [$1]'],
+      ['', '$$ = []']
+    ]
   }
 };
 
