@@ -41,6 +41,10 @@ test('Invalid double quote string 3', () => {
     parse(`missing opening quote"`)
   }).toThrow();
 });
+
+test('Double quote string contains url', () => {
+  expect(parse(`"https://github.com/ttlong3103/parse-object"`)).toBe('https://github.com/ttlong3103/parse-object');
+});
 // -----------------------------------------------------
 
 test('Single quote string 1', () => {
@@ -83,4 +87,8 @@ test('Invalid single quote string 3', () => {
   expect(() => {
     parse(`missing opening quote'`)
   }).toThrow();
+});
+
+test('Single quote string contains url', () => {
+  expect(parse(`'https://github.com/ttlong3103/parse-object'`)).toBe('https://github.com/ttlong3103/parse-object');
 });

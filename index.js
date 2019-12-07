@@ -36,6 +36,11 @@ var grammar = {
         `'`,
         `this.popState(); return "'";`
       ],
+      /** IDENTIFIER
+      * - Start with alphabet or underscore or $
+      * - Followed by alphanumerics or underscores or $
+      */
+      ['[\\$a-zA-Z_][\\w\\$]*', 'return "IDENTIFIER"'],
       /** NUMBER
        * Support "1" , "-1" , "1.0" , "-1.0" , "1." , ".1"
        */
@@ -43,6 +48,9 @@ var grammar = {
       [',', 'return ",";'],
       ['\\[', 'return "[";'],
       [']', 'return "]";'],
+      ['{', 'return "{";'],
+      ['}', 'return "}";'],
+      [':', 'return ":";'],
       ['$', 'return "EOF";']
     ]
   },
@@ -51,7 +59,8 @@ var grammar = {
     expr: [
       ['number', '$$ = $1'],
       ['string', '$$ = $1'],
-      ['array', '$$ = $1']
+      ['array', '$$ = $1'],
+      ['object', '$$ = $1'],
     ],
     number: [['NUMBER', '$$ = Number($1)']],
     string: [
@@ -71,7 +80,23 @@ var grammar = {
       ['expr , argList', '$$ = [$1].concat($3)'],
       ['expr', '$$ = [$1]'],
       ['', '$$ = []']
-    ]
+    ],
+    object: [['{ objProperties }', '$$ = $2']],
+    objProperties: [
+      [
+        'key : value , objProperties',
+        '$$ = Object.assign({[$1]: $3}, $5)'
+      ],
+      ['key : value', '$$ = {[$1] : $3}'],
+      ['', '$$ = {}']
+    ],
+    key: [
+      ['string', '$$ = $1'],
+      ['IDENTIFIER', '$$ = $1']
+    ],
+    value: [
+      ['expr', '$$ = $1']
+    ],
   }
 };
 
