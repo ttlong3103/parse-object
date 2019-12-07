@@ -35,7 +35,7 @@ test('Object with all type of values and new line', () => {
     }`)
   ).toEqual({
     single_string: 'single',
-    doubleString: "   ",
+    doubleString: '   ',
     positive_integer: 100,
     negative_integer: -99,
     positive_float: 15.9999,
@@ -51,7 +51,9 @@ test('Object with all type of values and new line', () => {
 });
 
 test('Check ignore white spaces', () => {
-  expect(parse(`{a :1,         b: 2     , c: {                      }}`)).toEqual({
+  expect(
+    parse(`{a :1,         b: 2     , c: {                      }}`)
+  ).toEqual({
     a: 1,
     b: 2,
     c: {}
@@ -64,4 +66,29 @@ test('Check object with string value contains url', () => {
       url: 'https://github.com/ttlong3103/parse-object/'
     }
   );
+});
+
+describe('Parse Object is able to parse any thing from JSON.stringify() like:', () => {
+  test('number', () => {
+    const number = 2123;
+    expect(parse(JSON.stringify(number))).toEqual(number);
+  });
+  test('string', () => {
+    const string = 'this is a string';
+    expect(parse(JSON.stringify(string))).toEqual(string);
+  });
+  test('array', () => {
+    const array = [1, '2', '3', {}];
+    expect(parse(JSON.stringify(array))).toEqual(array);
+  });
+  test('object', () => {
+    const object = {
+      num: 1,
+      string: '2',
+      array: [3],
+      url: 'https://github.com/ttlong3103/parse-object',
+      nested: {}
+    };
+    expect(parse(JSON.stringify(object))).toEqual(object);
+  });
 });
