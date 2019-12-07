@@ -5,7 +5,7 @@ var grammar = {
     // https://stackoverflow.com/questions/25889540/jison-start-conditions-with-json-format
     startConditions: {
       DOUBLE_QUOTE_STRING_START_CONDITION: '// string starts with double quote',
-      SINGLE_QUOTE_STRING_START_CONDITION: '// string starts with single quote',
+      SINGLE_QUOTE_STRING_START_CONDITION: '// string starts with single quote'
     },
     rules: [
       ['\\s+', '/* skip whitespace */'],
@@ -15,7 +15,7 @@ var grammar = {
       [`"`, `this.begin("DOUBLE_QUOTE_STRING_START_CONDITION"); return '"';`],
       [
         ['DOUBLE_QUOTE_STRING_START_CONDITION'],
-        '[^"\\r\\n]+',
+        `[^"\\r\\n]+`,
         'return "DOUBLE_QUOTE_STRING";'
       ],
       [
@@ -28,7 +28,7 @@ var grammar = {
       [`'`, `this.begin("SINGLE_QUOTE_STRING_START_CONDITION"); return "'";`],
       [
         ['SINGLE_QUOTE_STRING_START_CONDITION'],
-        '[^\'\\r\\n]+',
+        `[^'\\r\\n]+`,
         'return "SINGLE_QUOTE_STRING";'
       ],
       [
@@ -40,6 +40,9 @@ var grammar = {
        * Support "1" , "-1" , "1.0" , "-1.0" , "1." , ".1"
        */
       ['[-]?((\\d+(\\.\\d*)?)|(\\d*\\.\\d+))', 'return "NUMBER";'],
+      [',', 'return ",";'],
+      ['\\[', 'return "[";'],
+      [']', 'return "]";'],
       ['$', 'return "EOF";']
     ]
   },
@@ -47,7 +50,8 @@ var grammar = {
     entry: [['expr EOF', 'return $1']],
     expr: [
       ['number', '$$ = $1'],
-      ['string', '$$ = $1']
+      ['string', '$$ = $1'],
+      ['array', '$$ = $1']
     ],
     number: [['NUMBER', '$$ = Number($1)']],
     string: [
@@ -62,6 +66,12 @@ var grammar = {
       [`' '`, '$$ = ""'],
       [`' SINGLE_QUOTE_STRING '`, '$$ = $2']
     ],
+    array: [['[ argList ]', '$$ = $2']],
+    argList: [
+      ['expr , argList', '$$ = [$1].concat($3)'],
+      ['expr', '$$ = [$1]'],
+      ['', '$$ = []']
+    ]
   }
 };
 
