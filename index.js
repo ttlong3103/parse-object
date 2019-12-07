@@ -5,7 +5,7 @@ var grammar = {
     // https://stackoverflow.com/questions/25889540/jison-start-conditions-with-json-format
     startConditions: {
       DOUBLE_QUOTE_STRING_START_CONDITION: '// string starts with double quote',
-      SINGLE_QUOTE_STRING_START_CONDITION: '// string starts with single quote',
+      SINGLE_QUOTE_STRING_START_CONDITION: '// string starts with single quote'
     },
     rules: [
       ['\\s+', '/* skip whitespace */'],
@@ -15,7 +15,7 @@ var grammar = {
       [`"`, `this.begin("DOUBLE_QUOTE_STRING_START_CONDITION"); return '"';`],
       [
         ['DOUBLE_QUOTE_STRING_START_CONDITION'],
-        '[^"\\r\\n]+',
+        `[^"\\r\\n]+`,
         'return "DOUBLE_QUOTE_STRING";'
       ],
       [
@@ -28,7 +28,7 @@ var grammar = {
       [`'`, `this.begin("SINGLE_QUOTE_STRING_START_CONDITION"); return "'";`],
       [
         ['SINGLE_QUOTE_STRING_START_CONDITION'],
-        '[^\'\\r\\n]+',
+        `[^'\\r\\n]+`,
         'return "SINGLE_QUOTE_STRING";'
       ],
       [
